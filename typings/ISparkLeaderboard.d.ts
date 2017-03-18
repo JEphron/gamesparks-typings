@@ -11,7 +11,7 @@ interface ISparkLeaderboard {
 	getPartitions(): ISparkLeaderboardPartition[]
 	drop(): void
 	drop(deleteRunningTotalData: boolean): void
-	getEntriesForIdentifier(identifier: string, customIdFilter: any): SparkLeaderboardEntry[]
+	getEntriesForIdentifier(identifier: string, customIdFilter: any): ISparkLeaderboardEntry[]
 	getEntriesFromPlayer(playerId: string, count: number): ISparkLeaderboardCursor
 	getEntriesFromPlayerForCustomId(playerId: string, count: number, customIdFilter: any): ISparkLeaderboardCursor
 	getIdFields(): string[]

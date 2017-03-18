@@ -60,9 +60,9 @@ interface ISparkPlayer {
 	getVirtualGoods(): any
 	resetAuthTokens(): void
 	resetAuthTokens(excludeCurrent: boolean): void
-	getLastSeen(): date
+	getLastSeen(): Date
 	unlock(): void
-	getCreationDate(): date
+	getCreationDate(): Date
 	matchesMongoQuery(mongoQuery: ScriptableObject): boolean
 	matchesMongoQueryString(mongoQueryString: string): boolean
 	getExperimentSegments(): ISparkPlayerExperimentSegment[]

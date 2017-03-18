@@ -9,9 +9,9 @@ interface ISparkChallenge {
 	getAcceptedPlayerIds(): string[]
 	getDeclinedPlayerIds(): string[]
 	getChallengerId(): string
-	getEndDate(): date
-	getExpiryDate(): date
-	getStartDate(): date
+	getEndDate(): Date
+	getExpiryDate(): Date
+	getStartDate(): Date
 	consumeTurn(playerId: string): boolean
 	takeTurn(playerId: string): boolean
 	removePlayer(playerId: string): boolean

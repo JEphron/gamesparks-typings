@@ -13,7 +13,7 @@ interface ISparkLeaderboardPartition {
 	drop(deleteRunningTotalData: boolean): void
 	archive(): void
 	isArchived(): boolean
-	getEntriesForIdentifier(identifier: string, customIdFilter: any): SparkLeaderboardEntry[]
+	getEntriesForIdentifier(identifier: string, customIdFilter: any): ISparkLeaderboardEntry[]
 	getEntriesFromPlayer(playerId: string, count: number): ISparkLeaderboardCursor
 	getEntriesFromPlayerForCustomId(playerId: string, count: number, customIdFilter: any): ISparkLeaderboardCursor
 	getIdFields(): string[]

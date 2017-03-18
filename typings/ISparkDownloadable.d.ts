@@ -1,6 +1,6 @@
 interface ISparkDownloadable {
 	getShortCode(): string
 	getSize(): number
-	getLastModified(): date
+	getLastModified(): Date
 	getUrl(): string
 }

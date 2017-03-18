@@ -2,16 +2,19 @@ import os
 from os.path import join, splitext
 from os import walk
 import re
+import sys 
 
 match_signature = re.compile('_signature_ .*$')
 match_returns = re.compile('_returns_ .*$')
 
-type_mapping = {"JSON": "any", "JSON[]": "any[]"}
+type_mapping = {"JSON": "any", "date": "Date"}
 
 
 def swap_type_order_in_params(x):
     def flip_and_format(param):
         type, name = param.split(' ')
+        if '[]' in type and type[:-2] in type_mapping:
+            type = type_mapping[type[:-2]] + '[]'
         if type in type_mapping:
             type = type_mapping[type]
         return name + ': ' + type
@@ -21,7 +24,8 @@ def swap_type_order_in_params(x):
         return '(' + ', '.join(map(flip_and_format, params)) + ')'
 
     result = re.sub('\((.+?)\)', rep, x, count=1)
-    print('->', result)
+    # print('++', x)
+    # print('->', result)
     return result
 
 
@@ -30,10 +34,12 @@ def extract_types_from_links(x):
         type = match.groups()[0]
         if type in type_mapping:
             type = type_mapping[type]
+            return type
         return 'I' + type
 
-    a = re.sub('\[(.*?)\]\(.*?\)', rep, x)
+    a = re.sub('\[(\w+?)\]\(.+?\)', rep, x)
     return a
+
 
 
 def process(filepath, interface_name):
@@ -44,10 +50,13 @@ def process(filepath, interface_name):
         signatures = [x.replace('</p>\n', '').replace('_signature_', '').strip() for x in signatures]
         returns = [x.replace('</p>\n', '').replace('_returns_', '').strip() for x in returns]
         returns = [type_mapping[x] if x in type_mapping else x for x in returns]
+        returns = [type_mapping[x[:-2]]+'[]' if '[]' in x and x[:-2] in type_mapping else x for x in returns]
         fn_defs = [x + ': ' + y for x, y in zip(signatures, returns)]
         fn_defs = [extract_types_from_links(x) for x in fn_defs]
         fn_defs = [swap_type_order_in_params(x) for x in fn_defs]
         assert (len(signatures) == len(returns))
+        if interface_name == 'ISparkTeams':
+            sys.exit()
         out_text = '\n\t'.join(fn_defs)
 
     return 'interface ' + interface_name + ' {\n\t' + out_text + '\n}'
@@ -62,15 +71,24 @@ def find_all_md_files(directory):
 
 
 def main():
+    if len(sys.argv) < 2:
+        print("usage: first argument should be the path to the documentation folder")
+        sys.exit(-1)
+
     out_dir = 'typings'
-    all_md_files = find_all_md_files('./Cloud Code API')
+    all_md_files = find_all_md_files(sys.argv[1])
     count = 0
+
+    for root, f in all_md_files:
+        interface_name = 'I{}'.format(splitext(f)[0])
+        type_mapping[splitext(f)[0]] = interface_name
+
     for root, f in all_md_files:
         interface_name = 'I{}'.format(splitext(f)[0])
         filename = '{}.d.ts'.format(interface_name)
         out_path = join(out_dir, filename)
         output_text = process(join(root, f), interface_name)
-        print(out_path)
+        print("   " + out_path)
         count = count + 1
         with open(out_path, 'w') as out_file:
             out_file.writelines(output_text)

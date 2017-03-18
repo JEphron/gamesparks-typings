@@ -4,8 +4,8 @@ interface ISparkMessage {
 	setSupressPushOnSocketSend(value: boolean): ISparkMessage
 	setIncludeInPushCount(value: boolean): ISparkMessage
 	setExpireAfterHours(hours: number): ISparkMessage
-	setDeviceTypes(deviceTypes: stringI]): [SparkMessage
+	setDeviceTypes(deviceTypes: string[]): ISparkMessage
 	setMessageData(data: any): ISparkMessage
-	setPlayerIds(playerIds: stringI]): [SparkMessage
+	setPlayerIds(playerIds: string[]): ISparkMessage
 	send(): void
 }

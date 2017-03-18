@@ -11,6 +11,6 @@ interface ISparkMatchConfig {
 	getManuallyMatch(): boolean
 	getPlayerDisconnectThreshold(): number
 	getThresholds(): List
-	createPendingMatch(matchGroup: string, skill: number, players: ISparkPlayerI]): [PendingMatch
-	createPendingMatchWithCustomQuery(matchGroup: string, skill: number, customQuery: any, matchData: any, players: ISparkPlayerI]): [PendingMatch
+	createPendingMatch(matchGroup: string, skill: number, players: ISparkPlayer[]): IPendingMatch
+	createPendingMatchWithCustomQuery(matchGroup: string, skill: number, customQuery: any, matchData: any, players: ISparkPlayer[]): IPendingMatch
 }

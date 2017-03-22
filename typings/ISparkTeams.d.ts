@@ -1,4 +1,4 @@
 interface ISparkTeams {
-	getTeam(teamId: string): IISparkTeam
-	getTeamByOwnerIdAndTeamType(ownerId: string, teamType: string): IISparkTeam[]
+	getTeam(teamId: string): ISparkTeam
+	getTeamByOwnerIdAndTeamType(ownerId: string, teamType: string): ISparkTeam[]
 }

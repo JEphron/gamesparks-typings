@@ -63,8 +63,6 @@ def process(filepath, interface_name):
         fn_defs = [extract_types_from_links(x) for x in fn_defs]
         fn_defs = [swap_type_order_in_params(x) for x in fn_defs]
         assert len(signatures) == len(returns)
-        if interface_name == 'ISparkTeams':
-            sys.exit()
         out_text = '\n\t'.join(fn_defs)
 
     return 'interface ' + interface_name + ' {\n\t' + out_text + '\n}'

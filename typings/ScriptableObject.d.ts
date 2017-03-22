@@ -1,0 +1,1 @@
+declare type ScriptableObject = any;
